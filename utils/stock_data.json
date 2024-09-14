@@ -1,0 +1,64 @@
+{
+    "stocks": [
+        {
+            "symbol": "LWQ",
+            "company": "Gonzalez Ltd",
+            "price": 9648,
+            "volume": 35480
+        },
+        {
+            "symbol": "AEU",
+            "company": "Davis-Hughes",
+            "price": 7646,
+            "volume": 751011
+        },
+        {
+            "symbol": "GDJ",
+            "company": "Schultz, Torres and Floyd",
+            "price": 1787,
+            "volume": 692516
+        },
+        {
+            "symbol": "GSI",
+            "company": "Lopez-Wood",
+            "price": 1585,
+            "volume": 398024
+        },
+        {
+            "symbol": "XZU",
+            "company": "Rodriguez-Davis",
+            "price": 274,
+            "volume": 297855
+        },
+        {
+            "symbol": "RYT",
+            "company": "Carlson, Page and Richmond",
+            "price": 5483,
+            "volume": 534195
+        },
+        {
+            "symbol": "FNO",
+            "company": "Dyer-Nelson",
+            "price": 6011,
+            "volume": 609952
+        },
+        {
+            "symbol": "YFS",
+            "company": "Johnson, Day and Wells",
+            "price": 7388,
+            "volume": 908792
+        },
+        {
+            "symbol": "JTO",
+            "company": "Martin-Hernandez",
+            "price": 2567,
+            "volume": 182031
+        },
+        {
+            "symbol": "TNP",
+            "company": "Johnson-Murphy",
+            "price": 2163,
+            "volume": 947707
+        }
+    ]
+}

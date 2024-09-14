@@ -7,39 +7,99 @@
         "type": "INT AUTO_INCREMENT PRIMARY KEY"
       },
       {
-        "name": "name",
+        "name": "products",
         "type": "VARCHAR(255) NOT NULL"
       },
       {
-        "name": "value",
+        "name": "categories",
         "type": "VARCHAR(255)"
       }
     ]
   },
   "data": {
-    "Name": [
-      "Seth Anderson",
-      "Henry Gonzalez",
-      "Kimberly Howard",
-      "Charles Wilson",
-      "Devin Stewart",
-      "Joseph Smith",
-      "Julian Diaz",
-      "Tara Wiggins",
-      "Cassidy Bell",
-      "Nathaniel Price"
+    "products": [
+      {
+        "product_id": "533cd281-9653-4f25-a6aa-11ad2f08d348",
+        "name": "modern",
+        "description": "Travel dog huge high group. Candidate think final forget. Father arrive computer guess language young everyone.",
+        "price": 2892,
+        "stock": 35
+      },
+      {
+        "product_id": "2c41ffe3-dcf5-4a9b-bfde-a374fc6167e0",
+        "name": "threat",
+        "description": "Traditional look who television. Late hundred prevent. Make suffer skin respond phone stand. Direction system contain political.",
+        "price": 585,
+        "stock": 96
+      },
+      {
+        "product_id": "6a215157-fd5b-4a3d-bff5-788805e59679",
+        "name": "expect",
+        "description": "A mention long marriage wind possible nearly. Which study general successful rise.\nStage executive next maintain lot. This population husband result article student.",
+        "price": 6219,
+        "stock": 94
+      },
+      {
+        "product_id": "0b6794bc-e399-4d52-a22d-1f0a3e0b63fc",
+        "name": "try",
+        "description": "Stop law nation three minute bring listen. Already out laugh half. Score contain his collection return.",
+        "price": 3293,
+        "stock": 23
+      },
+      {
+        "product_id": "9a8410b0-6e27-496d-b334-d6f79c9be442",
+        "name": "church",
+        "description": "Him high turn feeling avoid low language. Reality social before mention executive hair.",
+        "price": 2305,
+        "stock": 98
+      },
+      {
+        "product_id": "9e66218f-87eb-4eb9-b5a7-95a5141745d8",
+        "name": "make",
+        "description": "Most sing expect early happen pressure. Time people office act report.\nEffect energy rise federal treat leg. Any outside thousand us. Necessary hour choice best group billion first.",
+        "price": 2965,
+        "stock": 57
+      },
+      {
+        "product_id": "1be9bd22-7a5c-4d5a-8acd-a3265b97d74e",
+        "name": "you",
+        "description": "Purpose explain sound bring anything. After heavy while likely.\nDay audience near. Especially along key focus. Nice side guy. Admit record Congress.",
+        "price": 4432,
+        "stock": 24
+      },
+      {
+        "product_id": "20280160-ffb5-48db-adde-9958ce46c9cf",
+        "name": "choose",
+        "description": "Ever local political probably write. Threat join theory recently magazine sit should successful. Bring her wish family candidate. Sign everybody newspaper later someone often.",
+        "price": 140,
+        "stock": 46
+      },
+      {
+        "product_id": "1a3c39e4-6102-4946-9169-f447348fb4e4",
+        "name": "miss",
+        "description": "Young head second though member sport. Area pick everybody message without law late. Learn collection be such tonight policy.",
+        "price": 5003,
+        "stock": 87
+      },
+      {
+        "product_id": "76d64122-4a58-4026-9e4c-45c617c65b47",
+        "name": "because",
+        "description": "Live social environmental television another. Event peace goal thing some. Civil authority forget drop how like.",
+        "price": 8513,
+        "stock": 66
+      }
     ],
-    "Value": [
-      "$241.66",
-      "$49,503.84",
-      "$340.34",
-      "$85,046.22",
-      "$9.59",
-      "$561.26",
-      "$101.72",
-      "$218.79",
-      "$534.79",
-      "$701.49"
+    "categories": [
+      "foot",
+      "long",
+      "keep",
+      "law",
+      "trip",
+      "bit",
+      "interview",
+      "nor",
+      "challenge",
+      "American"
     ]
   }
 }
