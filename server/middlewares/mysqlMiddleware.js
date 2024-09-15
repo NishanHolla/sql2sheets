@@ -1,20 +1,15 @@
-// mysqlMiddleware.js
-const mysql = require('mysql');
-const config = require('../config/config');
+const { createMySQLConnection } = require('../utils/mysqlSingleton'); // Make sure this path is correct
 
 // Middleware to check if MySQL is running
 function checkMySQLRunning(req, res, next) {
-  const connection = mysql.createConnection(config.mysqlConfig);
+  const connection = createMySQLConnection(); // Use the singleton connection
 
-  connection.connect((err) => {
-    if (err) {
-      console.error('Error connecting to MySQL:', err.stack);
-      return res.status(500).send('MySQL is not running.');
-    }
-    console.log('MySQL is running. Connected as ID:', connection.threadId);
-    connection.end(); // Close the connection after checking
-    next();
-  });
+  if (!connection) {
+    return res.status(500).send('Failed to connect to MySQL.');
+  }
+
+  console.log('MySQL is running. Connected as ID:', connection.threadId);
+  next();
 }
 
 module.exports = { checkMySQLRunning };

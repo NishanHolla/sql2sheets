@@ -1,27 +1,33 @@
 const mysql = require('mysql');
-const { mysqlConfig } = require('../config/config');
+const config = require('../config/config');
 
-let connection;
+let connection = null; // Singleton connection
 
-function createConnection() {
-  connection = mysql.createConnection(mysqlConfig);
-  return new Promise((resolve, reject) => {
+// Function to create a MySQL connection and reuse it
+function createMySQLConnection() {
+  if (!connection) {
+    connection = mysql.createConnection(config.mysqlConfig);
     connection.connect((err) => {
       if (err) {
         console.error('Error connecting to MySQL:', err.stack);
-        return reject(err);
+      } else {
+        console.log('Connected to MySQL as ID:', connection.threadId);
       }
-      console.log('Connected to MySQL as ID:', connection.threadId);
-      resolve(connection);
     });
-  });
-}
 
-async function getConnection() {
-  if (!connection) {
-    await createConnection();
+    // Handle connection errors and reconnect if needed
+    connection.on('error', (err) => {
+      if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+        console.log('MySQL connection lost. Reconnecting...');
+        connection = null;
+        createMySQLConnection(); // Reconnect
+      } else {
+        throw err;
+      }
+    });
   }
+
   return connection;
 }
 
-module.exports = { getConnection };
+module.exports = { createMySQLConnection }; // Export the function

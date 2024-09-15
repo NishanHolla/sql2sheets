@@ -7,3 +7,7 @@
 /server/.env
 
 /server/node_modules
+
+/server/superjoin-sheets.json
+
+/utils/superjoin-sheets.json
