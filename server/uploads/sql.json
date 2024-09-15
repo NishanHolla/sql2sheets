@@ -16,30 +16,46 @@
       }
     ]
   },
-  "data": {
-    "Name": [
-      "Seth Anderson",
-      "Henry Gonzalez",
-      "Kimberly Howard",
-      "Charles Wilson",
-      "Devin Stewart",
-      "Joseph Smith",
-      "Julian Diaz",
-      "Tara Wiggins",
-      "Cassidy Bell",
-      "Nathaniel Price"
-    ],
-    "Value": [
-      "$241.66",
-      "$49,503.84",
-      "$340.34",
-      "$85,046.22",
-      "$9.59",
-      "$561.26",
-      "$101.72",
-      "$218.79",
-      "$534.79",
-      "$701.49"
-    ]
-  }
+  "data": [
+    {
+      "Name": "Seth Anderson",
+      "Value": "$241.66"
+    },
+    {
+      "Name": "Henry Gonzalez",
+      "Value": "$49,503.84"
+    },
+    {
+      "Name": "Kimberly Howard",
+      "Value": "$340.34"
+    },
+    {
+      "Name": "Charles Wilson",
+      "Value": "$85,046.22"
+    },
+    {
+      "Name": "Devin Stewart",
+      "Value": "$9.59"
+    },
+    {
+      "Name": "Joseph Smith",
+      "Value": "$561.26"
+    },
+    {
+      "Name": "Julian Diaz",
+      "Value": "$101.72"
+    },
+    {
+      "Name": "Tara Wiggins",
+      "Value": "$218.79"
+    },
+    {
+      "Name": "Cassidy Bell",
+      "Value": "$534.79"
+    },
+    {
+      "Name": "Nathaniel Price",
+      "Value": "$701.49"
+    }
+  ]
 }

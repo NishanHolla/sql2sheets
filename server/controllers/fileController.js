@@ -40,20 +40,32 @@ exports.uploadFile = async (req, res, uploadedFiles) => {
   }
 };
 
-// Your existing transformData function
 function transformData(inputJson) {
   const jsonData = JSON.parse(inputJson);
 
-  // Extract columns dynamically
+  // Extract column names dynamically from the input JSON
   const columns = Object.keys(jsonData);
 
-  // Convert JSON data to Google Sheets format
+  // Prepare the data for SQL format by converting it to an array of objects
+  const dataLength = jsonData[columns[0]].length; // Assuming all columns have the same length
+  const data = [];
+
+  // Loop over the length of the data and create an array of objects
+  for (let i = 0; i < dataLength; i++) {
+    const row = {};
+    columns.forEach(column => {
+      row[column] = jsonData[column][i]; // Assign the value from each column
+    });
+    data.push(row); // Add the constructed row to the data array
+  }
+
+  // Convert JSON data to Google Sheets format (assuming this part is still needed)
   const sheetsFormat = {
     "sheet": {
       "title": "New Sheet",
       "columns": columns // Column names
     },
-    "data": jsonData // Directly include data
+    "data": jsonData // Directly include data in array format
   };
 
   // Convert JSON data to SQL format
@@ -72,7 +84,7 @@ function transformData(inputJson) {
         ...sqlColumns
       ]
     },
-    "data": jsonData
+    "data": data // Array of objects with Name and Value properties
   };
 
   return {
