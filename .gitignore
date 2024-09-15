@@ -9,5 +9,7 @@
 /server/node_modules
 
 /server/superjoin-sheets.json
+/server/superjoin-sheetsv2.json
+
 
 /utils/superjoin-sheets.json
