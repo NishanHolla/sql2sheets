@@ -1,5 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 const { getConnection } = require('../utils/mySqlSingleton'); // Import the singleton connection
 
+// Function to check MySQL connection
 async function checkMySqlConnc() {
   try {
     const connection = await getConnection();
@@ -10,33 +13,54 @@ async function checkMySqlConnc() {
   }
 }
 
-async function createTable(tableInfo) {
-  const connection = await getConnection();
-  const columns = [
-    'id INT AUTO_INCREMENT PRIMARY KEY',
-    'name VARCHAR(255) NOT NULL',
-    'value VARCHAR(255)'
-  ].join(', ');
+// Function to create a table using table information
+async function createTableFromFile() {
+  try {
+    const sqlFilePath = path.join(__dirname, '../uploads/sql.json');
+    const sqlData = JSON.parse(fs.readFileSync(sqlFilePath, 'utf8'));
 
-  const query = `CREATE TABLE IF NOT EXISTS ${tableInfo.name} (${columns})`;
-  return new Promise((resolve, reject) => {
-    connection.query(query, (err, results) => {
-      if (err) return reject(err);
-      resolve(results);
+    const connection = await getConnection();
+    const columns = sqlData.table.columns
+      .map(col => `${col.name} ${col.type}`)
+      .join(', ');
+
+    const query = `CREATE TABLE IF NOT EXISTS ${sqlData.table.name} (${columns})`;
+
+    return new Promise((resolve, reject) => {
+      connection.query(query, (err, results) => {
+        if (err) return reject(err);
+        console.log(`Table ${sqlData.table.name} created successfully.`);
+        resolve(results);
+      });
     });
-  });
+  } catch (err) {
+    throw new Error('Error creating table from file:', err);
+  }
 }
 
-async function insertData(tableName, data) {
-  const connection = await getConnection();
-  const query = `INSERT INTO ${tableName} (name, value) VALUES ?`;
-  const values = data.Name.map((name, index) => [name, data.Value[index]]);
-  return new Promise((resolve, reject) => {
-    connection.query(query, [values], (err, results) => {
-      if (err) return reject(err);
-      resolve(results);
+// Function to insert data into the table
+async function insertDataFromFile() {
+  try {
+    const sqlFilePath = path.join(__dirname, '../uploads/sql.json');
+    const sqlData = JSON.parse(fs.readFileSync(sqlFilePath, 'utf8'));
+
+    const connection = await getConnection();
+    const query = `INSERT INTO ${sqlData.table.name} (${sqlData.table.columns.map(col => col.name).join(', ')}) VALUES ?`;
+
+    const dataRows = sqlData.data[sqlData.table.columns[0].name].map((_, index) =>
+      sqlData.table.columns.map(col => sqlData.data[col.name][index])
+    );
+
+    return new Promise((resolve, reject) => {
+      connection.query(query, [dataRows], (err, results) => {
+        if (err) return reject(err);
+        console.log(`Data inserted successfully into table ${sqlData.table.name}`);
+        resolve(results);
+      });
     });
-  });
+  } catch (err) {
+    throw new Error('Error inserting data from file:', err);
+  }
 }
 
-module.exports = { checkMySqlConnc, createTable, insertData };
+module.exports = { checkMySqlConnc, createTableFromFile, insertDataFromFile };
