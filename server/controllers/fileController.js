@@ -1,31 +1,35 @@
 const fs = require('fs');
+const path = require('path');
 
-// Controller to handle file upload and processing
-exports.uploadFile = (req, res) => {
-  if (!req.file) {
+// Controller to handle file upload and processing using formidable
+exports.uploadFile = (req, res, uploadedFiles) => {
+  if (!uploadedFiles || uploadedFiles.length === 0) {
     return res.status(400).send('No file uploaded.');
   }
 
-  console.log('File uploaded successfully:', req.file.originalname); // Debugging log
+  const uploadedFile = Array.isArray(uploadedFiles) ? uploadedFiles[0] : uploadedFiles; // Handle array case
 
-  // Process the uploaded file
-  const inputJson = req.file.buffer.toString('utf8');
+  console.log('File uploaded successfully:', uploadedFile.originalFilename);
 
   try {
-    // Save the transformed data to files
+    // Read the uploaded file content (using the correct path)
+    const inputJson = fs.readFileSync(uploadedFile.filepath, 'utf8');
+
+    // Transform the data (this is your existing logic)
     const { sheetsFormat, sqlFormat } = transformData(inputJson);
 
-    fs.writeFileSync('sheets.json', JSON.stringify(sheetsFormat, null, 2), 'utf8');
-    fs.writeFileSync('sql.json', JSON.stringify(sqlFormat, null, 2), 'utf8');
+    // Save the transformed data to files in the 'uploads/' directory
+    fs.writeFileSync(path.join(__dirname, '../uploads', 'sheets.json'), JSON.stringify(sheetsFormat, null, 2), 'utf8');
+    fs.writeFileSync(path.join(__dirname, '../uploads', 'sql.json'), JSON.stringify(sqlFormat, null, 2), 'utf8');
 
-    res.send('Files created successfully.');
+    res.status(200).send('Files created successfully.');
   } catch (error) {
     console.error('Error processing the file:', error);
     res.status(500).send('Error processing the file.');
   }
 };
 
-// Function to transform input JSON to sheets and SQL formats
+// Your existing transformData function
 function transformData(inputJson) {
   const jsonData = JSON.parse(inputJson);
 
