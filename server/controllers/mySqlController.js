@@ -1,66 +1,117 @@
 const fs = require('fs');
 const path = require('path');
-const { getConnection } = require('../utils/mySqlSingleton'); // Import the singleton connection
+const mysqlSingleton = require('../utils/mysqlSingleton'); // Adjust the path to your singleton file
 
 // Function to check MySQL connection
 async function checkMySqlConnc() {
-  try {
-    const connection = await getConnection();
-    console.log('Connected to MySQL as ID:', connection.threadId);
-    return { message: 'MySQL connection is active.', id: connection.threadId };
-  } catch (err) {
-    throw new Error('Error connecting to MySQL.');
-  }
+  return new Promise((resolve, reject) => {
+    const connection = mysqlSingleton.createMySQLConnection();
+    connection.query('SELECT 1', (err, results) => {
+      if (err) return reject(err);
+      resolve(results);
+    });
+  });
 }
 
-// Function to create a table using table information
-async function createTableFromFile() {
-  try {
-    const sqlFilePath = path.join(__dirname, '../uploads/sql.json');
-    const sqlData = JSON.parse(fs.readFileSync(sqlFilePath, 'utf8'));
+// Function to create or overwrite a table
+async function createOrOverwriteTable(tableInfo) {
+  return new Promise((resolve, reject) => {
+    const connection = mysqlSingleton.createMySQLConnection();
+    const dropTableQuery = `DROP TABLE IF EXISTS ${tableInfo.name}`;
+    const createTableQuery = `CREATE TABLE ${tableInfo.name} (${tableInfo.columns.map(col => `${col.name} ${col.type}`).join(', ')})`;
 
-    const connection = await getConnection();
-    const columns = sqlData.table.columns
-      .map(col => `${col.name} ${col.type}`)
-      .join(', ');
+    connection.query(dropTableQuery, (err) => {
+      if (err) return reject(err);
 
-    const query = `CREATE TABLE IF NOT EXISTS ${sqlData.table.name} (${columns})`;
-
-    return new Promise((resolve, reject) => {
-      connection.query(query, (err, results) => {
+      connection.query(createTableQuery, (err, results) => {
         if (err) return reject(err);
-        console.log(`Table ${sqlData.table.name} created successfully.`);
         resolve(results);
       });
     });
-  } catch (err) {
-    throw new Error('Error creating table from file:', err);
-  }
+  });
 }
 
-// Function to insert data into the table
-async function insertDataFromFile() {
-  try {
-    const sqlFilePath = path.join(__dirname, '../uploads/sql.json');
-    const sqlData = JSON.parse(fs.readFileSync(sqlFilePath, 'utf8'));
+// Function to insert data into a table
+async function insertData(tableName, data) {
+  return new Promise((resolve, reject) => {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return reject(new Error('No valid data to insert'));
+    }
 
-    const connection = await getConnection();
-    const query = `INSERT INTO ${sqlData.table.name} (${sqlData.table.columns.map(col => col.name).join(', ')}) VALUES ?`;
+    const columns = Object.keys(data[0] || {});
+    if (columns.length === 0) {
+      return reject(new Error('Data is not in the expected format'));
+    }
 
-    const dataRows = sqlData.data[sqlData.table.columns[0].name].map((_, index) =>
-      sqlData.table.columns.map(col => sqlData.data[col.name][index])
-    );
+    const values = data.map(row => columns.map(col => row[col]));
+    const query = `INSERT INTO ${tableName} (${columns.join(', ')}) VALUES ?`;
 
-    return new Promise((resolve, reject) => {
-      connection.query(query, [dataRows], (err, results) => {
-        if (err) return reject(err);
-        console.log(`Data inserted successfully into table ${sqlData.table.name}`);
-        resolve(results);
-      });
+    const connection = mysqlSingleton.createMySQLConnection();
+    connection.query(query, [values], (err, results) => {
+      if (err) {
+        console.error('Error inserting data:', err);
+        return reject(err);
+      }
+      resolve(results);
     });
-  } catch (err) {
-    throw new Error('Error inserting data from file:', err);
-  }
+  });
 }
 
-module.exports = { checkMySqlConnc, createTableFromFile, insertDataFromFile };
+// Function to get all data from a table
+async function getAllDataFromTable(tableName) {
+  return new Promise((resolve, reject) => {
+    const connection = mysqlSingleton.createMySQLConnection();
+    const query = `SELECT * FROM ${tableName}`;
+
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        return reject(err);
+      }
+      resolve(results);
+    });
+  });
+}
+
+// Function to read the sql.json file and process the data
+async function processSqlJsonFile() {
+  const filePath = path.join(__dirname, '../uploads/sql.json');
+
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8', async (err, data) => {
+      if (err) {
+        console.error('Error reading sql.json file:', err);
+        return reject(err);
+      }
+      try {
+        const jsonData = JSON.parse(data);
+        
+        // Assuming sql.json has structure like:
+        // { "table": { "name": "tableName", "columns": [{ "name": "columnName", "type": "columnType" }] }, "data": [ { "columnName": "value1" }, ... ] }
+
+        const tableInfo = jsonData.table;
+        const tableData = jsonData.data;
+
+        // Step 1: Create or overwrite table
+        await createOrOverwriteTable(tableInfo);
+        console.log(`Table ${tableInfo.name} created or overwritten successfully`);
+
+        // Step 2: Insert data into the table
+        if (tableData && tableData.length > 0) {
+          await insertData(tableInfo.name, tableData);
+          console.log(`Data inserted into ${tableInfo.name} successfully`);
+        } else {
+          console.log(`No data found to insert into ${tableInfo.name}`);
+        }
+
+        resolve('Process completed successfully');
+      } catch (parseErr) {
+        console.error('Error parsing sql.json file:', parseErr);
+        reject(parseErr);
+      }
+    });
+  });
+}
+
+module.exports = { checkMySqlConnc, createOrOverwriteTable, insertData, getAllDataFromTable, processSqlJsonFile };
+

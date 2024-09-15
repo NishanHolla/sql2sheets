@@ -24,23 +24,27 @@ router.get('/check', async (req, res) => {
   }
 });
 
-// Example route to create a table in MySQL, ensuring MySQL is running, with logging
+// Route to create or overwrite a table and insert data using sql.json
 router.post('/create-table', logMiddleware, checkMySqlConncMiddleware, async (req, res) => {
   try {
-    const result = await mySqlController.createTable(req.body);
-    res.send('Table created successfully.');
+    // No need to log the request body, we're using sql.json
+    await mySqlController.processSqlJsonFile();
+    res.send('Table created or overwritten and data inserted successfully using sql.json.');
   } catch (err) {
-    res.status(500).send('Error creating table.');
+    console.error('Error:', err); // Log the error to the console
+    res.status(500).send('Error creating or overwriting table and inserting data.');
   }
 });
 
-// Example route to insert data into a MySQL table, with logging
-router.post('/insert-data', logMiddleware, checkMySqlConncMiddleware, async (req, res) => {
+// Route to get all data from a table
+router.get('/get-data/:tableName', logMiddleware, checkMySqlConncMiddleware, async (req, res) => {
   try {
-    const result = await mySqlController.insertData(req.body.tableName, req.body.data);
-    res.send('Data inserted successfully.');
+    const tableName = req.params.tableName;
+    const data = await mySqlController.getAllDataFromTable(tableName);
+    res.json(data); // Send the data as JSON response
   } catch (err) {
-    res.status(500).send('Error inserting data.');
+    console.error('Error:', err); // Log the error
+    res.status(500).send('Error fetching data.');
   }
 });
 
