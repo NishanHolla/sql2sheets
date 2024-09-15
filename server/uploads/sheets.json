@@ -6,8 +6,8 @@
       "categories"
     ]
   },
-  "data": {
-    "products": [
+  "data": [
+    [
       {
         "product_id": "533cd281-9653-4f25-a6aa-11ad2f08d348",
         "name": "modern",
@@ -15,6 +15,9 @@
         "price": 2892,
         "stock": 35
       },
+      "foot"
+    ],
+    [
       {
         "product_id": "2c41ffe3-dcf5-4a9b-bfde-a374fc6167e0",
         "name": "threat",
@@ -22,6 +25,9 @@
         "price": 585,
         "stock": 96
       },
+      "long"
+    ],
+    [
       {
         "product_id": "6a215157-fd5b-4a3d-bff5-788805e59679",
         "name": "expect",
@@ -29,6 +35,9 @@
         "price": 6219,
         "stock": 94
       },
+      "keep"
+    ],
+    [
       {
         "product_id": "0b6794bc-e399-4d52-a22d-1f0a3e0b63fc",
         "name": "try",
@@ -36,6 +45,9 @@
         "price": 3293,
         "stock": 23
       },
+      "law"
+    ],
+    [
       {
         "product_id": "9a8410b0-6e27-496d-b334-d6f79c9be442",
         "name": "church",
@@ -43,6 +55,9 @@
         "price": 2305,
         "stock": 98
       },
+      "trip"
+    ],
+    [
       {
         "product_id": "9e66218f-87eb-4eb9-b5a7-95a5141745d8",
         "name": "make",
@@ -50,6 +65,9 @@
         "price": 2965,
         "stock": 57
       },
+      "bit"
+    ],
+    [
       {
         "product_id": "1be9bd22-7a5c-4d5a-8acd-a3265b97d74e",
         "name": "you",
@@ -57,6 +75,9 @@
         "price": 4432,
         "stock": 24
       },
+      "interview"
+    ],
+    [
       {
         "product_id": "20280160-ffb5-48db-adde-9958ce46c9cf",
         "name": "choose",
@@ -64,6 +85,9 @@
         "price": 140,
         "stock": 46
       },
+      "nor"
+    ],
+    [
       {
         "product_id": "1a3c39e4-6102-4946-9169-f447348fb4e4",
         "name": "miss",
@@ -71,25 +95,17 @@
         "price": 5003,
         "stock": 87
       },
+      "challenge"
+    ],
+    [
       {
         "product_id": "76d64122-4a58-4026-9e4c-45c617c65b47",
         "name": "because",
         "description": "Live social environmental television another. Event peace goal thing some. Civil authority forget drop how like.",
         "price": 8513,
         "stock": 66
-      }
-    ],
-    "categories": [
-      "foot",
-      "long",
-      "keep",
-      "law",
-      "trip",
-      "bit",
-      "interview",
-      "nor",
-      "challenge",
+      },
       "American"
     ]
-  }
+  ]
 }
