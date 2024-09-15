@@ -17,9 +17,14 @@ const logMiddleware = (req, res, next) => {
       status: res.statusCode
     });
 
-    logEntry.save((err) => {
-      if (err) console.error('Error logging request:', err);
-    });
+    // Use async/await or promises for saving the log entry
+    logEntry.save()
+      .then(() => {
+        console.log('Request logged successfully');
+      })
+      .catch((err) => {
+        console.error('Error logging request:', err);
+      });
 
     // Call the original send method
     originalSend.apply(res, arguments);

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 // MongoDB Connection
 mongoose.connect('mongodb://localhost:27017/logsdb', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  // Ensure you handle connection errors or provide appropriate options
 });
 
 const logSchema = new mongoose.Schema({

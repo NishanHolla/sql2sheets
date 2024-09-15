@@ -1,31 +1,22 @@
 const express = require('express');
-const multer = require('multer');
-const { saveTransformedData } = require('./utils/transformData');
+const fileRoutes = require('./routes/fileRoutes');
+const mySqlRoutes = require('./routes/mySqlRoutes');
+const syncRoutes = require('./routes/syncRoutes');
+const logMiddleware = require('./middlewares/logMiddleware'); // Import logMiddleware
 
-// Initialize Express
 const app = express();
 const port = 3000;
 
-// Configure multer for file uploads
-const upload = multer({ storage: multer.memoryStorage() });
+// Middleware setup
+app.use(express.json());
 
-// Endpoint to handle JSON file upload
-app.post('/upload', upload.single('file'), (req, res) => {
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
+// Apply logMiddleware globally to log all routes
+app.use(logMiddleware);
 
-  // Process the uploaded file
-  const inputJson = req.file.buffer.toString('utf8');
-
-  try {
-    // Save the transformed data to files
-    saveTransformedData(inputJson);
-    res.send('Files created successfully.');
-  } catch (error) {
-    res.status(500).send('Error processing the file.');
-  }
-});
+// Define the routes
+app.use('/files', fileRoutes);
+app.use('/mysql', mySqlRoutes);
+app.use('/sync', syncRoutes);
 
 // Start the server
 app.listen(port, () => {

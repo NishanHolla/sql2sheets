@@ -1,16 +1,11 @@
 const express = require('express');
+const { syncData } = require('../middlewares/syncMiddleware');
+const syncController = require('../controllers/syncController');
+const logMiddleware = require('../middlewares/logMiddleware'); // Import logMiddleware
+
 const router = express.Router();
-const syncService = require('../services/syncService');
-const logMiddleware = require('../middlewares/logMiddleware');
-const syncMiddleware = require('../middlewares/syncMiddleware');
 
-router.post('/', logMiddleware, syncMiddleware, (req, res) => {
-  const changes = req.body;
-
-  syncService.syncWithGoogleSheets(changes, (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.status(200).json({ message: result });
-  });
-});
+// Sync route that logs requests
+router.post('/sync', logMiddleware, syncData, syncController.performSync);
 
 module.exports = router;

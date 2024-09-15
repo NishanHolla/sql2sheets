@@ -4,9 +4,9 @@ module.exports = {
     },
     mysqlConfig: {
       host: 'localhost',
-      user: 'your_username',
-      password: 'your_password',
-      database: 'your_database'
+      user: 'root',
+      password: 'nishanholla',
+      database: 'superjoin'
     }
   };
   
