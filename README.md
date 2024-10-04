@@ -28,7 +28,7 @@ This project provides a system to synchronize data between Google Sheets and a M
 
 ### 1. Data Ingestion and JSON File Processing
 
-- **Upload JSON Files**: Users upload JSON files through the provided controllers. These files are processed to generate two JSON files: `sheets.json` and `sql.json`.
+- **Upload JSON Files**: Users upload JSON files through the provided controllers. These files are ingested and processed to generate two JSON files: `sheets.json` and `sql.json`.
   - **`sheets.json`**: Represents the data structure and content for the Google Sheet.
   - **`sql.json`**: Defines the table schema and data rows for the MySQL database.
 
@@ -51,17 +51,14 @@ This project provides a system to synchronize data between Google Sheets and a M
 
 - **Delete Sheet and Table**: Both the Google Sheet and the corresponding MySQL table can be deleted using API calls. The system also handles the cleanup of associated files, such as `sheetId.json`.
 
-## MVC Architecture
+## Developer's Section
 
-The project follows the MVC (Model-View-Controller) architecture:
+## Video
+[<video width="600" controls>
+  <source src="https://drive.google.com/file/d/1rLHAs-GkYMHJuVdpIJZp568cRdfu4jMq/view?usp=sharing" type="video/mp4">
+  Your browser does not support the video tag.
+</video>](https://drive.google.com/file/d/1rLHAs-GkYMHJuVdpIJZp568cRdfu4jMq/view?usp=drive_link)
 
-- **Model**: Functions that handle data and database interactions, such as querying and updating the MySQL database.
-- **Controller**: Manages incoming requests, processes them (using models if needed), and returns responses. This includes handling uploaded JSON files, creating Google Sheets, and updating the MySQL database.
-- **Router**: Directs incoming requests to the appropriate controller functions.
-- **Server.js**: The entry point for the application that sets up the server and middleware, integrating with the MVC structure.
+## Contact
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
+For any questions or feedback, please contact me at [your-email@example.com].
