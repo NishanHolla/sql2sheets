@@ -61,4 +61,4 @@ This project provides a system to synchronize data between Google Sheets and a M
 
 ## Contact
 
-For any questions or feedback, please contact me at [your-email@example.com].
+For any questions or feedback, please contact me at [hollanishan@gmail.com].
